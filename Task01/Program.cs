@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Task01
 {
@@ -10,11 +10,12 @@ namespace Task01
 	{
 		static void Main(string[] args)
 		{
-			MenuItem item = new MenuItem("Salo");
-			item.Show();
-			Console.WriteLine();
+			Console.SetWindowPosition(0, 0);
 
-			item.Show(item.Text.Length + 1);
+			Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+			Menu menu = new Menu(false);
+
+			menu.StartMenu();
 		}
 	}
 }

@@ -6,11 +6,28 @@ using System.Threading.Tasks;
 
 namespace Task01
 {
+	struct CursorPos
+	{
+		public CursorPos(int left, int top)
+		{
+			this.left = left;
+			this.top = top;
+		}
+		public int left;
+		public int top;
+	}
+
 	class MenuItem
 	{
 		private string text;
+		private CursorPos cusorPos = new CursorPos(0, 0);
 		private ConsoleColor itemColor;
 		private ConsoleColor textColor;
+		public int Left
+		{
+			get => cusorPos.left;
+			set => cusorPos.left = (value >= 0) ? value : 0;
+		}
 
 		public MenuItem()
 		{
@@ -30,7 +47,7 @@ namespace Task01
 			TextColor = textColor;
 		}
 		public string Text
-		{ 
+		{
 			get => text;
 			set => text = String.IsNullOrEmpty(value) ? default : value;
 		}
@@ -39,6 +56,7 @@ namespace Task01
 
 		public virtual void Execute()
 		{
+			Console.Clear();
 			Console.WriteLine("This Menu Item does nothing");
 		}
 
@@ -50,6 +68,7 @@ namespace Task01
 			Console.ForegroundColor = itemColor;
 			for (int i = 0; i < 3; i++)
 			{
+				Console.SetCursorPosition(cusorPos.left, Console.CursorTop);
 				if (i == 1)
 				{
 					Console.Write("* ");
@@ -92,14 +111,15 @@ namespace Task01
 
 			int leftSpaces = spacesSize / 2;
 			if (spacesSize % 2 != 0)
-				 leftSpaces = (int)Math.Round((float)spacesSize / 2f);
+				leftSpaces = (int)Math.Round((float)spacesSize / 2f);
 
 			Console.ForegroundColor = itemColor;
 			for (int i = 0; i < 3; i++)
 			{
+				Console.SetCursorPosition(cusorPos.left, Console.CursorTop);
 				if (i == 1)
 				{
-					
+
 					Console.Write('*' + new String(' ', (leftSpaces)));
 					Console.ForegroundColor = textColor;
 					Console.Write(text);
@@ -118,7 +138,7 @@ namespace Task01
 		{
 			if ((text == default) || (String.IsNullOrEmpty(text)))
 				return "Menu item misconfigured. Output error!";
-			
+
 			StringBuilder builder = new StringBuilder();
 
 			for (int i = 0; i < 3; i++)
